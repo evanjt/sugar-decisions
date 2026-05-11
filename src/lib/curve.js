@@ -1,5 +1,6 @@
 // Sugar Decisions Glucose Model — manually traced from whiteboard drawing
-// Each waypoint: px = x-position (0-1 of chart width), g = glucose, t = time
+// px = x-position (0-1 of chart width), g = glucose, t = time
+// y-position is derived from glucose via the standard axis
 
 export const TOTAL_TIME = 90;
 export const GLUCOSE_MAX = 130;
@@ -14,27 +15,27 @@ export const waypoints = [
   { px: 0.16, g: 60, t: 42 },
   { px: 0.17, g: 120, t: 43 },
 
-  // Descent (right side of tube) — curves right with a kink
+  // Descent from peak — left wall of tube, curves right
   { px: 0.21, g: 85, t: 44 },
-  { px: 0.26, g: 45, t: 44.5 },
-  { px: 0.23, g: 15, t: 45 },
-  { px: 0.28, g: -25, t: 45.5 },
-  { px: 0.38, g: -65, t: 46 },
-  { px: 0.48, g: -110, t: 46.5 },
-  { px: 0.56, g: -150, t: 47 },
-  { px: 0.62, g: -180, t: 47.5 },
-  { px: 0.65, g: -200, t: 48 },
+  { px: 0.25, g: 45, t: 44.5 },
+  { px: 0.22, g: 15, t: 45 },
+  { px: 0.22, g: -25, t: 45.5 },
+  { px: 0.28, g: -65, t: 46 },
+  { px: 0.34, g: -110, t: 46.5 },
+  { px: 0.40, g: -150, t: 47 },
+  { px: 0.44, g: -180, t: 47.5 },
+  { px: 0.47, g: -200, t: 48 },
 
-  // Recovery (left side of tube) — curves back left
-  { px: 0.58, g: -180, t: 49 },
-  { px: 0.50, g: -150, t: 49.5 },
-  { px: 0.42, g: -110, t: 50 },
-  { px: 0.32, g: -65, t: 50.5 },
-  { px: 0.22, g: -25, t: 51 },
-  { px: 0.20, g: 0, t: 51.5 },
+  // Recovery — right wall of tube, FURTHER RIGHT than descent
+  { px: 0.55, g: -180, t: 49 },
+  { px: 0.56, g: -150, t: 49.5 },
+  { px: 0.53, g: -110, t: 50 },
+  { px: 0.47, g: -65, t: 50.5 },
+  { px: 0.38, g: -25, t: 51 },
+  { px: 0.32, g: 0, t: 51.5 },
 
   // Flat baseline to end
-  { px: 0.30, g: 0, t: 60 },
+  { px: 0.40, g: 0, t: 60 },
   { px: 0.95, g: 0, t: 90 },
 ];
 

@@ -32,14 +32,14 @@
 
   const rawSamples = sampleWaypoints();
 
-  let samples = $derived.by(() => {
-    return rawSamples.map(s => ({
+  let samples = $derived.by(() =>
+    rawSamples.map(s => ({
       x: chartLeft + s.px * chartWidth,
       y: gToY(s.g),
       glucose: s.g,
       time: s.t,
-    }));
-  });
+    }))
+  );
 
   let curvePath = $derived.by(() => {
     if (!samples.length) return '';
@@ -49,38 +49,21 @@
     return d;
   });
 
+  let closedPath = $derived(curvePath + ' Z');
+
   let peak = $derived(samples.reduce((a, b) => b.glucose > a.glucose ? b : a, samples[0]));
   let crash = $derived(samples.reduce((a, b) => b.glucose < a.glucose ? b : a, samples[0]));
 
-  let zoneFills = $derived.by(() => {
-    const fills = [];
-    for (const zone of zones) {
-      let runStart = -1;
-      for (let i = 0; i <= samples.length; i++) {
-        const s = samples[i];
-        const inZone = s && s.glucose >= zone.glucoseMin && s.glucose <= zone.glucoseMax;
-        if (inZone && runStart === -1) runStart = i;
-        if ((!inZone || i === samples.length) && runStart !== -1) {
-          const end = Math.min(i - 1, samples.length - 1);
-          const pts = samples.slice(runStart, end + 1);
-          if (pts.length >= 2) {
-            let d = `M ${pts[0].x.toFixed(1)} ${baselineY}`;
-            for (const p of pts) d += ` L ${p.x.toFixed(1)} ${p.y.toFixed(1)}`;
-            d += ` L ${pts[pts.length - 1].x.toFixed(1)} ${baselineY} Z`;
-            fills.push({ zone, path: d, midX: pts[Math.floor(pts.length / 2)].x, midY: pts[Math.floor(pts.length / 2)].y });
-          }
-          runStart = -1;
-        }
-      }
-    }
-    return fills;
-  });
-
+  // Zone label positions: find midpoint of each zone's presence on the curve
   let zoneLabels = $derived.by(() => {
-    const seen = new Set();
-    return zoneFills
-      .filter(f => { if (seen.has(f.zone.id)) return false; seen.add(f.zone.id); return true; })
-      .map(f => ({ zone: f.zone, x: f.midX, y: (f.midY + baselineY) / 2 }));
+    const labels = [];
+    for (const zone of zones) {
+      const inZone = samples.filter(s => s.glucose >= zone.glucoseMin && s.glucose <= zone.glucoseMax);
+      if (inZone.length < 2) continue;
+      const mid = inZone[Math.floor(inZone.length / 2)];
+      labels.push({ zone, x: mid.x, y: mid.y });
+    }
+    return labels;
   });
 
   const xTicks = [0, 15, 30, 45, 60, 75, 90];
@@ -130,9 +113,19 @@
     ontouchmove={(e) => { e.preventDefault(); handleMouseMove({ clientX: e.touches[0].clientX, clientY: e.touches[0].clientY }); }}
     ontouchend={() => hoverPoint = null}
   >
-    <!-- Zone fills -->
-    {#each zoneFills as f}
-      <path d={f.path} fill={f.zone.color} opacity={f.zone.bgOpacity} />
+    <defs>
+      {#each zones as zone}
+        <clipPath id="zc-{zone.id}">
+          <rect x="0" y={gToY(zone.glucoseMax)}
+            width={cw} height={gToY(zone.glucoseMin) - gToY(zone.glucoseMax)} />
+        </clipPath>
+      {/each}
+    </defs>
+
+    <!-- Zone fills: closed curve clipped to each zone's glucose band -->
+    {#each zones as zone}
+      <path d={closedPath} fill={zone.color} opacity={zone.bgOpacity}
+        clip-path="url(#zc-{zone.id})" />
     {/each}
 
     <!-- Baseline -->
