@@ -1,8 +1,5 @@
 <script>
-  import {
-    glucoseAtTime, TOTAL_TIME, GLUCOSE_MAX, GLUCOSE_MIN,
-    DISTORTION_STRENGTH, DISTORTION_POWER, WOBBLE_STRENGTH, WOBBLE_CYCLES,
-  } from '../lib/curve.js';
+  import { sampleWaypoints, TOTAL_TIME, GLUCOSE_MAX, GLUCOSE_MIN } from '../lib/curve.js';
   import { zones, getZoneAtGlucose } from '../lib/zones.js';
   import { yAxisValues } from '../lib/yaxis.js';
   import Tooltip from './Tooltip.svelte';
@@ -31,26 +28,17 @@
   let chartHeight = $derived(chartBottom - chartTop);
 
   function gToY(g) { return chartTop + (GLUCOSE_MAX - g) / (GLUCOSE_MAX - GLUCOSE_MIN) * chartHeight; }
-  function tToX(t) { return chartLeft + (t / TOTAL_TIME) * chartWidth; }
-
-  function distortX(baseX, glucose) {
-    const maxG = Math.max(Math.abs(GLUCOSE_MAX), Math.abs(GLUCOSE_MIN));
-    const norm = glucose / maxG;
-    const bend = -Math.sign(norm) * Math.pow(Math.abs(norm), DISTORTION_POWER) * chartWidth * DISTORTION_STRENGTH;
-    const wobble = Math.sin(norm * Math.PI * WOBBLE_CYCLES * 2) * chartWidth * WOBBLE_STRENGTH;
-    return baseX + bend + wobble;
-  }
-
   let baselineY = $derived(gToY(0));
 
+  const rawSamples = sampleWaypoints();
+
   let samples = $derived.by(() => {
-    const s = [];
-    for (let i = 0; i <= 600; i++) {
-      const time = (i / 600) * TOTAL_TIME;
-      const glucose = glucoseAtTime(time);
-      s.push({ time, glucose, x: distortX(tToX(time), glucose), y: gToY(glucose) });
-    }
-    return s;
+    return rawSamples.map(s => ({
+      x: chartLeft + s.px * chartWidth,
+      y: gToY(s.g),
+      glucose: s.g,
+      time: s.t,
+    }));
   });
 
   let curvePath = $derived.by(() => {
@@ -96,6 +84,7 @@
   });
 
   const xTicks = [0, 15, 30, 45, 60, 75, 90];
+  function tToX(t) { return chartLeft + (t / TOTAL_TIME) * chartWidth; }
 
   let hoverPoint = $state(null);
 
@@ -109,7 +98,7 @@
       const d = (samples[i].x - sx) ** 2 + (samples[i].y - sy) ** 2;
       if (d < bestD) { bestD = d; best = i; }
     }
-    if (Math.sqrt(bestD) > 40) { hoverPoint = null; return; }
+    if (Math.sqrt(bestD) > 50) { hoverPoint = null; return; }
     const s = samples[best];
     hoverPoint = {
       svgX: s.x, svgY: s.y,
@@ -141,14 +130,16 @@
     ontouchmove={(e) => { e.preventDefault(); handleMouseMove({ clientX: e.touches[0].clientX, clientY: e.touches[0].clientY }); }}
     ontouchend={() => hoverPoint = null}
   >
+    <!-- Zone fills -->
     {#each zoneFills as f}
       <path d={f.path} fill={f.zone.color} opacity={f.zone.bgOpacity} />
     {/each}
 
+    <!-- Baseline -->
     <line x1={chartLeft} y1={baselineY} x2={chartRight} y2={baselineY}
       stroke="#aaa" stroke-width="1" stroke-dasharray="6,4" opacity="0.5" />
 
-    <!-- Y-axis (straight, normal) -->
+    <!-- Y-axis (straight) -->
     <line x1={chartLeft} y1={chartTop} x2={chartLeft} y2={chartBottom}
       stroke="#555" stroke-width="1.5" />
     {#each yAxisValues as g}
@@ -165,6 +156,7 @@
       Glucose (mg/dL)
     </text>
 
+    <!-- X-axis -->
     <line x1={chartLeft} y1={chartBottom} x2={chartRight} y2={chartBottom}
       stroke="#555" stroke-width="1.5" />
     {#each xTicks as t}
@@ -178,12 +170,15 @@
       Time After Sugar Intake
     </text>
 
+    <!-- The curve -->
     <path d={curvePath} fill="none" stroke="#e0e0e0" stroke-width="2.5"
       stroke-linecap="round" stroke-linejoin="round" />
 
+    <!-- Peak & crash dots -->
     <circle cx={peak.x} cy={peak.y} r="4" fill="#22c55e" stroke="#fff" stroke-width="1.5" />
     <circle cx={crash.x} cy={crash.y} r="5" fill="#3b82f6" stroke="#fff" stroke-width="2" />
 
+    <!-- Zone labels -->
     {#each zoneLabels as lbl}
       <text x={lbl.x} y={lbl.y} text-anchor="middle" fill={lbl.zone.color}
         font-size="14" font-weight="bold" font-family="Permanent Marker, cursive"
@@ -192,6 +187,7 @@
       </text>
     {/each}
 
+    <!-- Hover -->
     {#if hoverPoint}
       <line x1={hoverPoint.svgX} y1={chartTop} x2={hoverPoint.svgX} y2={chartBottom}
         stroke={hoverPoint.zone.color} stroke-width="0.8" stroke-dasharray="3,3" opacity="0.4" />
