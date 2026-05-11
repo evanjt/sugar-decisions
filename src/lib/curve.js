@@ -3,6 +3,7 @@
 export const TOTAL_TIME = 90;
 export const GLUCOSE_MAX = 130;
 export const GLUCOSE_MIN = -210;
+export const DISTORTION = 0.0015;
 
 const keyframes = [
   { time: 0,  glucose: 0 },
