@@ -3,7 +3,12 @@
 export const TOTAL_TIME = 90;
 export const GLUCOSE_MAX = 130;
 export const GLUCOSE_MIN = -210;
-export const DISTORTION = 0.0015;
+// Distortion: how much the curve bends (positive glucose bends left, negative bends right)
+// The power creates curvature; the wobble creates forward/back kinks like the whiteboard
+export const DISTORTION_STRENGTH = 0.30;
+export const DISTORTION_POWER = 1.4;
+export const WOBBLE_STRENGTH = 0.05;
+export const WOBBLE_CYCLES = 2.5;
 
 const keyframes = [
   { time: 0,  glucose: 0 },

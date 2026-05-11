@@ -1,5 +1,8 @@
 <script>
-  import { glucoseAtTime, TOTAL_TIME, GLUCOSE_MAX, GLUCOSE_MIN, DISTORTION } from '../lib/curve.js';
+  import {
+    glucoseAtTime, TOTAL_TIME, GLUCOSE_MAX, GLUCOSE_MIN,
+    DISTORTION_STRENGTH, DISTORTION_POWER, WOBBLE_STRENGTH, WOBBLE_CYCLES,
+  } from '../lib/curve.js';
   import { zones, getZoneAtGlucose } from '../lib/zones.js';
   import { yAxisValues } from '../lib/yaxis.js';
   import Tooltip from './Tooltip.svelte';
@@ -29,7 +32,14 @@
 
   function gToY(g) { return chartTop + (GLUCOSE_MAX - g) / (GLUCOSE_MAX - GLUCOSE_MIN) * chartHeight; }
   function tToX(t) { return chartLeft + (t / TOTAL_TIME) * chartWidth; }
-  function distortX(baseX, glucose) { return baseX - glucose * chartWidth * DISTORTION; }
+
+  function distortX(baseX, glucose) {
+    const maxG = Math.max(Math.abs(GLUCOSE_MAX), Math.abs(GLUCOSE_MIN));
+    const norm = glucose / maxG;
+    const bend = -Math.sign(norm) * Math.pow(Math.abs(norm), DISTORTION_POWER) * chartWidth * DISTORTION_STRENGTH;
+    const wobble = Math.sin(norm * Math.PI * WOBBLE_CYCLES * 2) * chartWidth * WOBBLE_STRENGTH;
+    return baseX + bend + wobble;
+  }
 
   let baselineY = $derived(gToY(0));
 
@@ -85,18 +95,6 @@
       .map(f => ({ zone: f.zone, x: f.midX, y: (f.midY + baselineY) / 2 }));
   });
 
-  let yAxisPath = $derived.by(() => {
-    const steps = 100;
-    let d = '';
-    for (let i = 0; i <= steps; i++) {
-      const g = GLUCOSE_MAX - (i / steps) * (GLUCOSE_MAX - GLUCOSE_MIN);
-      const x = distortX(chartLeft, g);
-      const y = gToY(g);
-      d += i === 0 ? `M ${x.toFixed(1)} ${y.toFixed(1)}` : ` L ${x.toFixed(1)} ${y.toFixed(1)}`;
-    }
-    return d;
-  });
-
   const xTicks = [0, 15, 30, 45, 60, 75, 90];
 
   let hoverPoint = $state(null);
@@ -150,15 +148,15 @@
     <line x1={chartLeft} y1={baselineY} x2={chartRight} y2={baselineY}
       stroke="#aaa" stroke-width="1" stroke-dasharray="6,4" opacity="0.5" />
 
-    <!-- Curved y-axis -->
-    <path d={yAxisPath} fill="none" stroke="#555" stroke-width="1.5" />
+    <!-- Y-axis (straight, normal) -->
+    <line x1={chartLeft} y1={chartTop} x2={chartLeft} y2={chartBottom}
+      stroke="#555" stroke-width="1.5" />
     {#each yAxisValues as g}
       {@const y = gToY(g)}
-      {@const ax = distortX(chartLeft, g)}
-      <line x1={ax - 5} y1={y} x2={ax} y2={y} stroke="#555" stroke-width="1" />
-      <text x={ax - 8} y={y + 4} text-anchor="end" fill="#777"
+      <line x1={chartLeft - 5} y1={y} x2={chartLeft} y2={y} stroke="#555" stroke-width="1" />
+      <text x={chartLeft - 8} y={y + 4} text-anchor="end" fill="#777"
         font-size="10" font-family="Inter, sans-serif">{g}</text>
-      <line x1={ax} y1={y} x2={chartRight} y2={y}
+      <line x1={chartLeft} y1={y} x2={chartRight} y2={y}
         stroke="#333" stroke-width="0.3" stroke-dasharray="3,4" />
     {/each}
     <text x="15" y={(chartTop + chartBottom) / 2} text-anchor="middle" fill="#555"
