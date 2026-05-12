@@ -133,7 +133,7 @@
     <text x="8" y={(chartTop + chartBottom) / 2} text-anchor="middle" fill="#555"
       font-size="7" font-family="Permanent Marker, cursive"
       transform="rotate(-90, 8, {(chartTop + chartBottom) / 2})">
-      Glucose (mg/dL)
+      Sugar Rush Index
     </text>
 
     <line x1={chartLeft} y1={chartBottom} x2={chartRight} y2={chartBottom}
@@ -146,7 +146,7 @@
     {/each}
     <text x={(chartLeft + chartRight) / 2} y={VB_H - 4} text-anchor="middle"
       fill="#666" font-size="7" font-family="Permanent Marker, cursive">
-      Time After Sugar Intake
+      Minutes Since The Mistake
     </text>
 
     <path d={curvePath} fill="none" stroke="#e0e0e0" stroke-width="1.5"

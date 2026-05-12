@@ -1,5 +1,5 @@
 <script>
-  let { point, containerRect } = $props();
+  let { point } = $props();
 </script>
 
 {#if point}
@@ -13,10 +13,10 @@
       {point.zone.emoji} {point.zone.name}
     </div>
     <div class="detail">
-      <span class="label">Time:</span> {point.timeMin} min
+      <span class="label">When:</span> {point.timeMin}m in
     </div>
     <div class="detail">
-      <span class="label">Glucose:</span> {point.absurdY ?? point.glucose} mg/dL
+      <span class="label">Level:</span> {point.absurdY ?? point.glucose}
     </div>
   </div>
 {/if}

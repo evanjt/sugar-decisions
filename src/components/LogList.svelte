@@ -5,7 +5,7 @@
 {#if entries.length > 0}
   <div class="log-container">
     <div class="log-header">
-      <h3>Decision Log</h3>
+      <h3>Today's Damage</h3>
       <button onclick={onClear}>Clear</button>
     </div>
     <div class="log-entries">
