@@ -4,6 +4,7 @@
 
   let logEntries = $state([]);
   let prs = $state(JSON.parse(localStorage.getItem('sugar-decisions-prs') || '{}'));
+  let sidebarOpen = $state(false);
 
   function timeMinutes() {
     const n = new Date();
@@ -51,7 +52,16 @@
     <GlucosePlot onLog={handleLog} />
   </div>
 
-  <aside class="sidebar">
+  <button class="sidebar-toggle" class:open={sidebarOpen} onclick={() => sidebarOpen = !sidebarOpen}>
+    {sidebarOpen ? '✕' : '☰'}
+  </button>
+
+  {#if sidebarOpen}
+    <!-- svelte-ignore a11y_no_static_element_interactions a11y_click_events_have_key_events -->
+    <div class="sidebar-backdrop" onclick={() => sidebarOpen = false}></div>
+  {/if}
+
+  <aside class="sidebar" class:open={sidebarOpen}>
     <header>
       <h1>Sugar Decisions</h1>
       <p class="subtitle">The Glucose Decision Model</p>
@@ -97,6 +107,20 @@
   .layout { display: flex; height: 100vh; overflow: hidden; }
   .plot-panel { flex: 1; min-width: 0; height: 100%; }
 
+  .sidebar-toggle {
+    display: none;
+    position: fixed; top: 12px; right: 12px; z-index: 30;
+    width: 40px; height: 40px;
+    background: #111122; border: 1px solid #333; border-radius: 8px;
+    color: #e0e0e0; font-size: 20px; cursor: pointer;
+    align-items: center; justify-content: center;
+    line-height: 1;
+  }
+
+  .sidebar-backdrop {
+    display: none;
+  }
+
   .sidebar {
     width: 320px; flex-shrink: 0; height: 100%;
     overflow-y: auto; padding: 20px 24px;
@@ -132,4 +156,28 @@
 
   footer { margin-top: auto; padding-top: 20px; }
   footer p { font-family: 'Inter', sans-serif; color: #7a7a7a; font-size: 12px; font-style: italic; }
+
+  @media (max-width: 640px) {
+    .sidebar-toggle {
+      display: flex;
+    }
+
+    .sidebar-backdrop {
+      display: block;
+      position: fixed; inset: 0; z-index: 19;
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .sidebar {
+      position: fixed; top: 0; right: 0; z-index: 20;
+      height: 100%; width: 300px;
+      transform: translateX(100%);
+      transition: transform 0.25s ease;
+      border-left: 1px solid #333;
+    }
+
+    .sidebar.open {
+      transform: translateX(0);
+    }
+  }
 </style>

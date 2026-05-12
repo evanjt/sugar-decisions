@@ -13,7 +13,7 @@ export const waypoints = [
   { px: 0.09, g: 60, t: 42 },
   { px: 0.10, g: 120, t: 43 },
 
-  // Descent — nearly vertical at first, then sweeps into a diagonal
+  // Descent — original shape
   { px: 0.11, g: 95, t: 43.5 },
   { px: 0.12, g: 65, t: 44 },
   { px: 0.14, g: 35, t: 44.3 },
@@ -27,18 +27,21 @@ export const waypoints = [
   { px: 0.68, g: -185, t: 47.8 },
   { px: 0.74, g: -198, t: 48 },
   { px: 0.80, g: -200, t: 48.3 },
-  { px: 0.84, g: -195, t: 48.5 },
 
-  // Recovery — right wall of tube
-  { px: 0.82, g: -180, t: 49 },
-  { px: 0.76, g: -160, t: 49.3 },
-  { px: 0.68, g: -130, t: 49.7 },
-  { px: 0.57, g: -100, t: 50 },
-  { px: 0.46, g: -70, t: 50.4 },
-  { px: 0.36, g: -40, t: 50.8 },
-  { px: 0.27, g: -10, t: 51.2 },
-  { px: 0.22, g: 0, t: 51.5 },
-  { px: 0.21, g: 12, t: 53 },
+  // Pointed trough — hooks right instead of wide U-turn
+  { px: 0.84, g: -197, t: 48.5 },
+  { px: 0.86, g: -190, t: 48.8 },
+
+  // Narrower recovery — closer to descent path
+  { px: 0.78, g: -170, t: 49.2 },
+  { px: 0.69, g: -145, t: 49.6 },
+  { px: 0.58, g: -115, t: 50 },
+  { px: 0.46, g: -85, t: 50.5 },
+  { px: 0.35, g: -55, t: 51 },
+  { px: 0.25, g: -25, t: 51.5 },
+  { px: 0.18, g: -5, t: 52 },
+  { px: 0.17, g: 5, t: 52.5 },
+  { px: 0.20, g: 12, t: 53 },
   { px: 0.25, g: 10, t: 58 },
   { px: 0.35, g: 7, t: 65 },
   { px: 0.50, g: 4, t: 72 },
