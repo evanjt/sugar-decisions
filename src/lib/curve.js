@@ -6,42 +6,42 @@ export const GLUCOSE_MIN = -210;
 
 export const waypoints = [
   // Flat baseline
-  { px: 0.05, g: 0, t: 0 },
-  { px: 0.10, g: 0, t: 40 },
+  { px: 0.02, g: 0, t: 0 },
+  { px: 0.08, g: 0, t: 40 },
 
-  // Sharp spike up (very narrow, nearly vertical like whiteboard)
-  { px: 0.11, g: 60, t: 42 },
-  { px: 0.12, g: 120, t: 43 },
+  // Sharp spike up
+  { px: 0.09, g: 60, t: 42 },
+  { px: 0.10, g: 120, t: 43 },
 
-  // Descent — comes back down then curves right in a smooth diagonal
-  { px: 0.13, g: 100, t: 43.5 },
-  { px: 0.15, g: 70, t: 44 },
-  { px: 0.17, g: 40, t: 44.3 },
-  { px: 0.15, g: 20, t: 44.6 },
-  { px: 0.18, g: -10, t: 45 },
-  { px: 0.25, g: -40, t: 45.5 },
-  { px: 0.33, g: -70, t: 46 },
+  // Descent — nearly vertical at first, then sweeps into a diagonal
+  { px: 0.11, g: 95, t: 43.5 },
+  { px: 0.12, g: 65, t: 44 },
+  { px: 0.14, g: 35, t: 44.3 },
+  { px: 0.12, g: 15, t: 44.6 },
+  { px: 0.15, g: -10, t: 45 },
+  { px: 0.22, g: -40, t: 45.5 },
+  { px: 0.30, g: -70, t: 46 },
   { px: 0.40, g: -100, t: 46.5 },
-  { px: 0.48, g: -130, t: 47 },
-  { px: 0.54, g: -160, t: 47.5 },
-  { px: 0.58, g: -185, t: 47.8 },
-  { px: 0.60, g: -200, t: 48 },
+  { px: 0.50, g: -130, t: 47 },
+  { px: 0.60, g: -160, t: 47.5 },
+  { px: 0.68, g: -185, t: 47.8 },
+  { px: 0.72, g: -200, t: 48 },
 
-  // Recovery — right wall of tube, smooth curve back up
-  { px: 0.66, g: -185, t: 49 },
-  { px: 0.64, g: -160, t: 49.3 },
-  { px: 0.60, g: -130, t: 49.7 },
-  { px: 0.53, g: -100, t: 50 },
+  // Recovery — right wall of tube
+  { px: 0.78, g: -185, t: 49 },
+  { px: 0.74, g: -160, t: 49.3 },
+  { px: 0.66, g: -130, t: 49.7 },
+  { px: 0.55, g: -100, t: 50 },
   { px: 0.44, g: -70, t: 50.4 },
-  { px: 0.36, g: -40, t: 50.8 },
-  { px: 0.28, g: -10, t: 51.2 },
-  { px: 0.24, g: 0, t: 51.5 },
-  { px: 0.23, g: 8, t: 51.8 },
-  { px: 0.24, g: 3, t: 52 },
-  { px: 0.25, g: 0, t: 52.2 },
+  { px: 0.34, g: -40, t: 50.8 },
+  { px: 0.25, g: -10, t: 51.2 },
+  { px: 0.20, g: 0, t: 51.5 },
+  { px: 0.19, g: 8, t: 51.8 },
+  { px: 0.20, g: 3, t: 52 },
+  { px: 0.21, g: 0, t: 52.2 },
 
   // Flat baseline to end
-  { px: 0.32, g: 0, t: 60 },
+  { px: 0.28, g: 0, t: 60 },
   { px: 0.95, g: 0, t: 90 },
 ];
 
