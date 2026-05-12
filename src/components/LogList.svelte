@@ -38,7 +38,7 @@
   }
 
   .log-header h3 {
-    font-family: 'Permanent Marker', cursive;
+    font-family: 'Inter', sans-serif;
     color: #e0e0e0;
     margin: 0;
     font-size: 16px;

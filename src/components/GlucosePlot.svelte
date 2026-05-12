@@ -131,7 +131,7 @@
         stroke="#333" stroke-width="0.2" stroke-dasharray="2,3" />
     {/each}
     <text x="8" y={(chartTop + chartBottom) / 2} text-anchor="middle" fill="#555"
-      font-size="7" font-family="Permanent Marker, cursive"
+      font-size="7" font-family="Inter, sans-serif"
       transform="rotate(-90, 8, {(chartTop + chartBottom) / 2})">
       Sugar Rush Index
     </text>
@@ -145,7 +145,7 @@
         font-size="6" font-family="Inter, sans-serif">{t}m</text>
     {/each}
     <text x={(chartLeft + chartRight) / 2} y={VB_H - 4} text-anchor="middle"
-      fill="#666" font-size="7" font-family="Permanent Marker, cursive">
+      fill="#666" font-size="7" font-family="Inter, sans-serif">
       Minutes Since The Mistake
     </text>
 
@@ -157,7 +157,7 @@
 
     {#each zoneLabels as lbl}
       <text x={lbl.x} y={lbl.y} text-anchor="middle" fill={lbl.zone.color}
-        font-size="8" font-weight="bold" font-family="Permanent Marker, cursive"
+        font-size="8" font-weight="bold" font-family="Inter, sans-serif"
         stroke="#0d0d1a" stroke-width="2" paint-order="stroke">
         {lbl.zone.emoji} {lbl.zone.name}
       </text>

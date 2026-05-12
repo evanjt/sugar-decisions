@@ -104,32 +104,32 @@
     display: flex; flex-direction: column;
   }
 
-  header { margin-bottom: 16px; }
-  h1 { font-family: 'Permanent Marker', cursive; font-size: 1.8rem; color: #e0e0e0; margin: 0; letter-spacing: 1px; }
-  .subtitle { font-family: 'Inter', sans-serif; color: #888; font-size: 13px; margin: 6px 0 0; }
-  .tagline { font-family: 'Inter', sans-serif; color: #555; font-size: 11px; font-style: italic; margin: 2px 0 0; }
+  header { margin-bottom: 24px; }
+  h1 { font-family: 'Inter', sans-serif; font-size: 1.5rem; font-weight: 700; color: #f0f0f0; margin: 0; }
+  .subtitle { font-family: 'Inter', sans-serif; color: #d0d0d0; font-size: 14px; font-weight: 500; margin: 8px 0 0; }
+  .tagline { font-family: 'Inter', sans-serif; color: #9a9a9a; font-size: 13px; font-style: italic; margin: 4px 0 0; }
 
-  .pr-section { margin-bottom: 16px; }
-  .pr-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-  .pr-label { font-family: 'Permanent Marker', cursive; font-size: 14px; color: #999; letter-spacing: 1px; }
-  .pr-reset { background: transparent; border: none; color: #444; font-size: 10px; cursor: pointer; font-family: 'Inter', sans-serif; }
+  .pr-section { margin-bottom: 24px; }
+  .pr-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .pr-label { font-family: 'Inter', sans-serif; font-size: 14px; color: #e0e0e0; font-weight: 600; }
+  .pr-reset { background: transparent; border: none; color: #9a9a9a; font-size: 12px; cursor: pointer; font-family: 'Inter', sans-serif; }
   .pr-reset:hover { color: #ef4444; }
-  .pr-empty { font-family: 'Inter', sans-serif; font-size: 12px; color: #444; font-style: italic; margin: 0; }
+  .pr-empty { font-family: 'Inter', sans-serif; font-size: 14px; color: #9a9a9a; font-style: italic; margin: 0; }
 
-  .pr-list { display: flex; flex-direction: column; gap: 4px; }
+  .pr-list { display: flex; flex-direction: column; gap: 6px; }
   .pr-entry {
-    background: #0d0d1a; border-left: 3px solid; border-radius: 4px;
-    padding: 5px 10px; display: flex; align-items: center; gap: 8px;
-    font-family: 'Inter', sans-serif; font-size: 11px;
+    background: #0d0d1a; border-left: 3px solid; border-radius: 6px;
+    padding: 8px 12px; display: flex; align-items: center; gap: 10px;
+    font-family: 'Inter', sans-serif; font-size: 13px;
   }
-  .pr-time { font-weight: 700; font-size: 13px; min-width: 70px; }
-  .pr-zone { color: #aaa; flex: 1; }
-  .pr-date { color: #444; font-size: 9px; }
+  .pr-time { font-weight: 700; font-size: 15px; min-width: 80px; }
+  .pr-zone { color: #d0d0d0; flex: 1; }
+  .pr-date { color: #9a9a9a; font-size: 11px; }
 
-  .hint { margin-bottom: 16px; }
-  .hint p { font-family: 'Inter', sans-serif; color: #666; font-size: 12px; margin: 0; }
-  .hint-sub { color: #444 !important; font-size: 10px !important; font-style: italic; margin-top: 2px !important; }
+  .hint { margin-bottom: 20px; }
+  .hint p { font-family: 'Inter', sans-serif; color: #c0c0c0; font-size: 14px; margin: 0; }
+  .hint-sub { color: #9a9a9a !important; font-size: 12px !important; font-style: italic; margin-top: 4px !important; }
 
-  footer { margin-top: auto; padding-top: 16px; }
-  footer p { font-family: 'Inter', sans-serif; color: #333; font-size: 10px; font-style: italic; }
+  footer { margin-top: auto; padding-top: 20px; }
+  footer p { font-family: 'Inter', sans-serif; color: #7a7a7a; font-size: 12px; font-style: italic; }
 </style>
