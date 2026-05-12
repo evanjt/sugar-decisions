@@ -54,7 +54,7 @@
   <aside class="sidebar">
     <header>
       <h1>Sugar Decisions</h1>
-      <p class="subtitle">The Sugar Decisions Glucose Model</p>
+      <p class="subtitle">The Glucose Decision Model</p>
       <p class="tagline">Peer-reviewed by absolutely nobody</p>
     </header>
 
